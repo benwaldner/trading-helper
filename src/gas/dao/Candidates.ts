@@ -46,8 +46,10 @@ export class CandidatesDao implements ICandidatesDao {
       data: Record<string, CandidateInfo>,
     ) => Record<string, CandidateInfo> | symbol,
   ): void {
-    this.store.update<Record<string, CandidateInfo>>(CandidatesDataKey, (v) =>
-      mutateFn(v || {}),
+    this.store.update<Record<string, CandidateInfo>>(CandidatesDataKey, () =>
+      // By passing an empty object, we ensure that the list of candidates
+      // is completely replaced, rather than updated in place.
+      mutateFn({}),
     );
   }
 
@@ -62,8 +64,8 @@ export class CandidatesDao implements ICandidatesDao {
       return;
     }
 
-    this.update((all) => {
-      if (all[coin]) {
+    this.store.update<Record<string, CandidateInfo>>(CandidatesDataKey, (all) => {
+      if (all?.[coin]) {
         all[coin][Key.PINNED] = value ? Bit.TRUE : Bit.FALSE;
       }
       return all;
