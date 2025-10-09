@@ -2,8 +2,6 @@ import {
   type ICandidatesDao,
   type IMarketDataDao,
   StableUSDCoin,
-  ExchangeSymbol,
-  SymbolStatus,
 } from "../../lib/Types";
 import {
   BullRun,
@@ -12,29 +10,17 @@ import {
   type MarketInfo,
 } from "../../lib/index";
 import { type TraderPlugin } from "../traders/plugin/api";
-import { type ConfigDao } from "../dao/Config";
 
 export class MarketInfoProvider {
   constructor(
     private readonly mktDataDao: IMarketDataDao,
     private readonly candidatesDao: ICandidatesDao,
     private readonly plugin: TraderPlugin,
-    private readonly configDao: ConfigDao,
   ) {}
 
   get(step: number): MarketInfo {
-    const stableCoin = this.configDao.get().StableCoin;
     const allCandidates = this.candidatesDao.getAll();
-    const tradableCandidates = Object.fromEntries(
-      Object.entries(allCandidates).filter(([coin]) => {
-        const symbol = new ExchangeSymbol(coin, stableCoin);
-        const symbolInfo = this.plugin.getBinanceSymbolInfo(symbol);
-        return symbolInfo?.status === SymbolStatus.TRADING;
-      }),
-    );
-
-    const imbalance =
-      this.candidatesDao.getAverageImbalance(tradableCandidates);
+    const imbalance = this.candidatesDao.getAverageImbalance(allCandidates);
     this.mktDataDao.updateDemandHistory(() => imbalance, step);
 
     const mktPercentile = this.mktDataDao.getStrength(imbalance.average);

@@ -59,7 +59,6 @@ export class TradeManager {
       new MarketDataDao(DefaultStore),
       candidatesDao,
       global.TradingHelperLibrary,
-      configDao,
     );
     return new TradeManager(
       priceProvider,
