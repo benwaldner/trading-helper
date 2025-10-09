@@ -64,12 +64,15 @@ export class CandidatesDao implements ICandidatesDao {
       return;
     }
 
-    this.store.update<Record<string, CandidateInfo>>(CandidatesDataKey, (all) => {
-      if (all?.[coin]) {
-        all[coin][Key.PINNED] = value ? Bit.TRUE : Bit.FALSE;
-      }
-      return all;
-    });
+    this.store.update<Record<string, CandidateInfo>>(
+      CandidatesDataKey,
+      (all) => {
+        if (all?.[coin]) {
+          all[coin][Key.PINNED] = value ? Bit.TRUE : Bit.FALSE;
+        }
+        return all;
+      },
+    );
 
     Log.info(`${coin} ${value ? `` : `un`}pinned`);
   }

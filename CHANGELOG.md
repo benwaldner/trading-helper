@@ -1,4 +1,4 @@
-# v4.5.0
+# v4.4.5
 
 * Filter out redundant/removed coins from cache v4, and only keep coins that are actually tradeable.
 

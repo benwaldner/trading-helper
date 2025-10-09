@@ -32,7 +32,8 @@ export class MarketInfoProvider {
       }),
     );
 
-    const imbalance = this.candidatesDao.getAverageImbalance(tradableCandidates);
+    const imbalance =
+      this.candidatesDao.getAverageImbalance(tradableCandidates);
     this.mktDataDao.updateDemandHistory(() => imbalance, step);
 
     const mktPercentile = this.mktDataDao.getStrength(imbalance.average);
