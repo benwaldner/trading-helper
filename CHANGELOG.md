@@ -1,3 +1,7 @@
+# v4.4.5
+
+* Filter out redundant/removed coins from cache v4, and only keep coins that are actually tradeable.
+
 # v4.4.4
 
 * Minor UI fixes not related to UI or trading algorythm.

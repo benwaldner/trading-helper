@@ -251,6 +251,7 @@ function getCandidates(): CandidatesData {
     new MarketDataDao(DefaultStore),
     candidatesDao,
     plugin,
+    new ConfigDao(DefaultStore),
   );
   const { all, selected } = plugin.getCandidates(candidatesDao);
   // Add pinned candidates
@@ -428,6 +429,7 @@ global.info = (coin: CoinName) => {
       new MarketDataDao(DefaultStore),
       candidatesDao,
       plugin,
+      new ConfigDao(DefaultStore),
     );
     const info = marketInfoProvider.get(-1);
 
