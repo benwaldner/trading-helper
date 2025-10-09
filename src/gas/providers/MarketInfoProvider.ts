@@ -16,12 +16,11 @@ export class MarketInfoProvider {
     private readonly mktDataDao: IMarketDataDao,
     private readonly candidatesDao: ICandidatesDao,
     private readonly plugin: TraderPlugin,
-  ) { }
+  ) {}
 
   get(step: number): MarketInfo {
     const allCandidates = this.candidatesDao.getAll();
-    const imbalance =
-      this.candidatesDao.getAverageImbalance(allCandidates);
+    const imbalance = this.candidatesDao.getAverageImbalance(allCandidates);
     this.mktDataDao.updateDemandHistory(() => imbalance, step);
 
     const mktPercentile = this.mktDataDao.getStrength(imbalance.average);
