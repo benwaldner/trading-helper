@@ -1,6 +1,7 @@
 import {
   type ICandidatesDao,
   type IMarketDataDao,
+  StableUSDCoin,
   ExchangeSymbol,
   SymbolStatus,
 } from "../../lib/Types";
@@ -37,7 +38,7 @@ export class MarketInfoProvider {
     this.mktDataDao.updateDemandHistory(() => imbalance, step);
 
     const mktPercentile = this.mktDataDao.getStrength(imbalance.average);
-    const btcCur = this.plugin.getPrices()[`BTC${stableCoin}`];
+    const btcCur = this.plugin.getPrices()[`BTC${StableUSDCoin.USDT}`];
     const btcDaily = this.plugin.getDailyPrices().BTC;
 
     if (!btcCur || !btcDaily?.prices[0]) {
