@@ -47,9 +47,7 @@ export class CandidatesDao implements ICandidatesDao {
     ) => Record<string, CandidateInfo> | symbol,
   ): void {
     this.store.update<Record<string, CandidateInfo>>(CandidatesDataKey, () =>
-      // By passing an empty object, we ensure that the list of candidates
-      // is completely replaced, rather than updated in place.
-      mutateFn({}),
+      mutateFn(v || {}),
     );
   }
 
