@@ -37,7 +37,7 @@ export class MarketInfoProvider {
     this.mktDataDao.updateDemandHistory(() => imbalance, step);
 
     const mktPercentile = this.mktDataDao.getStrength(imbalance.average);
-    const btcCur = this.plugin.getPrices()[`BTC${StableUSDCoin.USDT}`];
+    const btcCur = this.plugin.getPrices()[`BTC${stableCoin}`];
     const btcDaily = this.plugin.getDailyPrices().BTC;
 
     if (!btcCur || !btcDaily?.prices[0]) {
