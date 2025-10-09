@@ -1,6 +1,6 @@
-# v4.4.5
+# v4.4.6
 
-* Filter out redundant/removed coins from cache v4, and only keep coins that are actually tradeable.
+* Improve CacheProxy for growing data size.
 
 # v4.4.4
 
