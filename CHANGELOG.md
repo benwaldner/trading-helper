@@ -1,3 +1,7 @@
+# v4.4.7
+
+* Fix a bug in CacheProxy that could cause a JSON parsing error when retrieving large cached values that were split into multiple parts.
+
 # v4.4.6
 
 * Improve CacheProxy for growing data size.

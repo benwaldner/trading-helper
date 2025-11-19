@@ -51,18 +51,24 @@ export class DefaultCacheProxy implements ICacheProxy {
       }
 
       // This is the original key for a split value - reconstruct
-      let reconstructedValue = ``;
+      const partKeys = Array.from(
+        { length: partCount },
+        (_, i) => `${key}${SPLIT_KEY_SUFFIX}${i}`,
+      );
+      const parts = cache.getAll(partKeys);
+      const missingParts = partKeys.filter((pk) => !parts[pk]);
 
-      for (let i = 0; i < partCount; i++) {
-        const partKey = `${key}${SPLIT_KEY_SUFFIX}${i}`;
-        const partValue = cache.get(partKey);
-        if (partValue) {
-          reconstructedValue += partValue;
-        }
+      if (missingParts.length > 0) {
+        // Some parts are missing - treat as cache miss and cleanup
+        Log.info(
+          `Missing ${missingParts.length} parts for key ${key}. Cleaning up orphaned parts.`,
+        );
+        this._cleanupSplitParts(key, partCount);
+        return null;
       }
 
-      // Clean up split parts and metadata if reconstructed successfully
-      this._cleanupSplitParts(key, partCount);
+      // Join the parts in order to reconstruct the original value
+      const reconstructedValue = partKeys.map((pk) => parts[pk]).join(``);
 
       return reconstructedValue;
     } catch (error) {
