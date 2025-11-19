@@ -70,9 +70,6 @@ export class DefaultCacheProxy implements ICacheProxy {
       // Join the parts in order to reconstruct the original value
       const reconstructedValue = partKeys.map((pk) => parts[pk]).join(``);
 
-      // Do not clean up parts on successful read, let them expire naturally
-      // this._cleanupSplitParts(key, partCount);
-
       return reconstructedValue;
     } catch (error) {
       // If metadata parsing fails, treat as single value
