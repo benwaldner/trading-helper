@@ -122,7 +122,7 @@ export class TradeManager {
       });
     } catch (e) {
       Log.info(`Failed to update candidates: ${e.message}`);
-      throw e;
+      return;
     }
 
     const { advancedAccess, signals } = libResult;

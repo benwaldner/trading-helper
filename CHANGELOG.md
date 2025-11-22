@@ -1,3 +1,7 @@
+# v4.4.8
+
+* Fix a bug that could cause a JSON parsing error when fetching candidates data.
+
 # v4.4.7
 
 * Fix a bug in CacheProxy that could cause a JSON parsing error when retrieving large cached values that were split into multiple parts.
