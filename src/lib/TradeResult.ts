@@ -88,6 +88,9 @@ export class TradeResult {
     chunk.gained = this.gained * size;
     chunk.paid = this.paid * size;
     chunk.commission = this.commission * size;
+    chunk.msg = this.msg;
+    chunk.fromExchange = this.fromExchange;
+    chunk.dryRun = this.dryRun;
     return chunk;
   }
 
