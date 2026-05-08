@@ -193,7 +193,8 @@ export class Binance implements IExchange {
       );
       Log.debug(order);
       const tradeResult = new TradeResult(symbol);
-      const fees = this.#getFees(symbol, order.fills);
+      const fills = Array.isArray(order.fills) ? order.fills : [];
+      const fees = this.#getFees(symbol, fills);
       const toNumber = (v: any): number => {
         const n = Number(v);
         return Number.isFinite(n) ? n : 0;
@@ -316,7 +317,7 @@ export class Binance implements IExchange {
         const n = Number(v);
         return Number.isFinite(n) ? n : 0;
       };
-      const commission = toNumber(f.commission);
+      const commission = Math.max(0, toNumber(f.commission));
       if (f.commissionAsset === `BNB`) {
         fees.BNB += commission;
       } else if (f.commissionAsset === symbol.quantityAsset) {
