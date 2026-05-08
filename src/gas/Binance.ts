@@ -194,7 +194,8 @@ export class Binance implements IExchange {
       Log.debug(order);
       const tradeResult = new TradeResult(symbol);
       const fees = this.#getFees(symbol, order.fills);
-      tradeResult.quantity = +order.origQty - fees.origQty;
+      const executedQty = +(order.executedQty ?? order.origQty ?? 0);
+      tradeResult.quantity = executedQty - fees.origQty;
       tradeResult.cost = +order.cummulativeQuoteQty - fees.quoteQty;
       tradeResult.commission = fees.BNB;
       tradeResult.fromExchange = true;

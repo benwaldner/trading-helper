@@ -860,7 +860,7 @@ export class TradeManager {
       Log.debug(exit);
       Log.debug(tm);
       tm.setState(TradeState.BOUGHT);
-      Log.alert(`⚠️ An issue happened while selling ${symbol}: ${exit}`);
+      Log.alert(`⚠️ An issue happened while selling ${symbol}: ${exit.msg}`);
     }
 
     return tm;
