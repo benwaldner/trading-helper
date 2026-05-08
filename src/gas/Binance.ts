@@ -194,9 +194,13 @@ export class Binance implements IExchange {
       Log.debug(order);
       const tradeResult = new TradeResult(symbol);
       const fees = this.#getFees(symbol, order.fills);
-      const executedQty = +(order.executedQty ?? order.origQty ?? 0);
+      const toNumber = (v: any): number => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : 0;
+      };
+      const executedQty = toNumber(order.executedQty ?? order.origQty);
       tradeResult.quantity = Math.max(0, executedQty - fees.origQty);
-      tradeResult.cost = +order.cummulativeQuoteQty - fees.quoteQty;
+      tradeResult.cost = Math.max(0, toNumber(order.cummulativeQuoteQty) - fees.quoteQty);
       tradeResult.commission = fees.BNB;
       tradeResult.fromExchange = true;
       return tradeResult;
@@ -307,12 +311,18 @@ export class Binance implements IExchange {
   ): { BNB: number; origQty: number; quoteQty: number } {
     const fees = { BNB: 0, origQty: 0, quoteQty: 0 };
     fills.forEach((f) => {
+      if (!f) return;
+      const toNumber = (v: any): number => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : 0;
+      };
+      const commission = toNumber(f.commission);
       if (f.commissionAsset === `BNB`) {
-        fees.BNB += +f.commission;
+        fees.BNB += commission;
       } else if (f.commissionAsset === symbol.quantityAsset) {
-        fees.origQty += +f.commission;
+        fees.origQty += commission;
       } else if (f.commissionAsset === symbol.priceAsset) {
-        fees.quoteQty += +f.commission;
+        fees.quoteQty += commission;
       }
     });
     return fees;
